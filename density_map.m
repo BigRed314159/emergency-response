@@ -10,5 +10,4 @@ x, y: n by n meshgrid of x and y coordinates
 d: n by n meshgrid of densities.  All densities must be on [0,inf)
 %}
 
-
 end
