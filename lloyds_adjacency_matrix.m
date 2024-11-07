@@ -13,7 +13,16 @@ A:  n by n adjacency matrix
     e.g., if A(i,j) = 1, then agent-i receives a signal from agent-j
           if A(i,j) = 0, then agent-i receives NO signal from agent-j
 %}
+agent_matrix = readmatrix('lloyds_input.csv');  
+n = length(agent_matrix);
+A=zeros(n,n);
 
-
-
+for i=1:n
+    for j=1:n
+        if (i == j)
+            A(i,j)=0;
+        elseif (sqrt((xy(i,1) - xy(j,1))^2 + (xy(i,2) - xy(j,2))^2) < rc)
+            A(i,j)=1;
+        end
+    end
 end
