@@ -38,7 +38,11 @@ hotspotIntensities = [1, 3, 2, 4, 0.5]; % Control the intensity of each hotspot
 
 % Time settings
 numFrames = 100;       % Number of time steps (frames) to update
+<<<<<<< HEAD
 intervalDuration = 500; % Duration of each interval in seconds (choose 20 seconds)
+=======
+intervalDuration = 20; % Duration of each interval in seconds (choose 20 seconds)
+>>>>>>> 85cfae0a75a8f436656ed91a672ab6713b4ebfa2
 
 % Calculate pause time per frame based on the total interval duration
 updateInterval = intervalDuration / numFrames; % Duration of each frame update in seconds
@@ -84,4 +88,6 @@ for t = 1:numFrames
     % Pause to update the plot at each time step (slower animation)
     pause(updateInterval); % Control the time interval for each frame
 end
+<<<<<<< HEAD
 end
+=======
