@@ -19,6 +19,8 @@ A=zeros(n,n);
 
 for i=1:n
     for j=1:n
+        disp(i);
+        disp(j);
         if (i == j)
             A(i,j)=0;
         elseif (sqrt((xy(i,1) - xy(j,1))^2 + (xy(i,2) - xy(j,2))^2) < rc)
