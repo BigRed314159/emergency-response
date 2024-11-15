@@ -52,6 +52,7 @@ for t = 1:numFrames
 
     % Randomly update the locations and intensities of the hotspots
     for i = 1:numHotspots
+        
         % Update hotspot locations (move them randomly within the map bounds)
         hotspotLocations(i, 1) = mod(hotspotLocations(i, 1) + randi([-10, 10]), mapWidth);  % X position
         hotspotLocations(i, 2) = mod(hotspotLocations(i, 2) + randi([-10, 10]), mapHeight); % Y position

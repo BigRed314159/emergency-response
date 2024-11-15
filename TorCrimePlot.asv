@@ -33,28 +33,26 @@ ylabel('Latitude');
 axis equal;
 
 figure;
-%while 1
-    for hour = 0:23
-        data_hour = data_2024(data_2024.REPORT_HOUR == hour, :);
-        
-        latitude_hour = data_hour.LAT_WGS84;
-        longitude_hour = data_hour.LONG_WGS84;
+for hour = 0:23
+    data_hour = data_2024(data_2024.REPORT_HOUR == hour, :);
     
-        %clear the plot
-        clf;
-            
-        H = histogram2(longitude_hour, latitude_hour, 'XBinLimits', long_edges, 'YBinLimits',lat_edges, 'numBins', [100,50], 'DisplayStyle','tile','ShowEmptyBins','on');
+    latitude_hour = data_hour.LAT_WGS84;
+    longitude_hour = data_hour.LONG_WGS84;
+
+    %clear the plot
+    clf;
         
-        colormap(jet);
-        colorbar;
-            
-        xlabel('Longitude');
-        ylabel('Latitude');
-        title(sprintf('Crime Density Map - Toronto 2024\nHour: %02d:00', hour));
-        clim([0 60]); % for colour bar continuity
-        axis equal; %Make plot square
+    H = histogram2(longitude_hour, latitude_hour, 'XBinLimits', long_edges, 'YBinLimits',lat_edges, 'numBins', [100,50], 'DisplayStyle','tile','ShowEmptyBins','off');
+    
+    colormap(jet);
+    colorbar;
         
-        pause(0.1);  %second delay between frames
-            
-    end
-%end
+    xlabel('Longitude');
+    ylabel('Latitude');
+    title(sprintf('Crime Density Map - Toronto 2024\nHour: %02d:00', hour));
+    clim([]);
+    axis equal; %Make plot square
+    
+    pause(0.1);  %second delay between frames
+        
+end
