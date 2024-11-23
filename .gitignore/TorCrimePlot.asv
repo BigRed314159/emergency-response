@@ -14,14 +14,14 @@ long_min = min(longitude_2024);
 lat_edges = [lat_min, lat_max];
 long_edges = [long_min,long_max];
 
-figure;
-geoplot(latitude_2024, longitude_2024, 'r*');
-geobasemap('satellite');
-title("Crimes in Toronto YTD");
+% figure;
+% geoplot(latitude_2024, longitude_2024, 'r*');
+% geobasemap('satellite');
+% title("Crimes in Toronto YTD");
 
 
-figure;
-H = histogram2(longitude_2024, latitude_2024, 'numBins', [100,100], 'DisplayStyle','tile','ShowEmptyBins','off');
+% figure;
+% H = histogram2(longitude_2024, latitude_2024, 'numBins', [100,100], 'DisplayStyle','tile','ShowEmptyBins','off');
 
 %add the bar on the side
 colormap(jet);
@@ -32,27 +32,42 @@ xlabel('Longitude');
 ylabel('Latitude');
 axis equal;
 
+numCrimes = zeros(24);
 figure;
 for hour = 0:23
     data_hour = data_2024(data_2024.REPORT_HOUR == hour, :);
-    
     latitude_hour = data_hour.LAT_WGS84;
     longitude_hour = data_hour.LONG_WGS84;
-
-    %clear the plot
+    
+    % Create coordinate meshgrid
+    [X, Y] = meshgrid(linspace(long_edges(1), long_edges(2), 100), ...
+                     linspace(lat_edges(1), lat_edges(2), 50));
+    
+    Z = zeros(size(X));
+    sigma = 0.015; % Adjust this bandwidth parameter as needed
+    for i = 1:length(longitude_hour)
+        instance = exp(-((X - longitude_hour(i)).^2 + (Y - latitude_hour(i)).^2) / (2*sigma^2));
+        Z = Z + instance;
+        numCrimes(hour+1) = numCrimes(hour +1) + 1;
+    end
+    
+    % Clear and create the plot
     clf;
-        
-    H = histogram2(longitude_hour, latitude_hour, 'XBinLimits', long_edges, 'YBinLimits',lat_edges, 'numBins', [100,50], 'DisplayStyle','tile','ShowEmptyBins','off');
+    
+    % Create surface plot
+    surf(X, Y, Z, 'EdgeColor', 'none');
+    view(3); % Set to 2D view
     
     colormap(jet);
     colorbar;
-        
     xlabel('Longitude');
     ylabel('Latitude');
     title(sprintf('Crime Density Map - Toronto 2024\nHour: %02d:00', hour));
-    clim([]);
-    axis equal; %Make plot square
+    clim([0 60]); % for colour bar continuity
+    axis equal; % Make plot square
     
-    pause(0.1);  %second delay between frames
-        
+    pause(0.1); % second delay between frames
 end
+
+
+bar(numCrimes, );
