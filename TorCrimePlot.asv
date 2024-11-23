@@ -44,7 +44,7 @@ for hour = 0:23
                      linspace(lat_edges(1), lat_edges(2), 50));
     
     Z = zeros(size(X));
-    sigma = 0.015; % Adjust as needed
+    sigma = 0.015; % Adjust this bandwidth parameter as needed
     for i = 1:length(longitude_hour)
         instance = exp(-((X - longitude_hour(i)).^2 + (Y - latitude_hour(i)).^2) / (2*sigma^2));
         Z = Z + instance;
@@ -54,8 +54,9 @@ for hour = 0:23
     % Clear and create the plot
     clf;
     
+    % Create surface plot
     surf(X, Y, Z, 'EdgeColor', 'none');
-    view(2); % 2D view
+    view(3); % Set to 2D view
     
     colormap(jet);
     colorbar;
@@ -69,4 +70,4 @@ for hour = 0:23
 end
 
 
-bar(numCrimes, 20);
+bar(numCrimes, );
