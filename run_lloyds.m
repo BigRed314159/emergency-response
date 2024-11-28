@@ -45,17 +45,17 @@ instructor/TAs to help with large structual modifications to this script.)
 
 % simulation parameters
 TFINAL = 10;
-NSTEPS = 50;
-NARENA = 50;
+NSTEPS = 3;
+NARENA = 100;
 
 % agent parameters
 K = 3;
-RANDOM_AGENTS = 10;     % # of randomly generated agents scattered on 
+RANDOM_AGENTS = 0;     % # of randomly generated agents scattered on 
                         % [-K,K]^2, if RANDOM_AGENTS = 0, then positions 
                         % at t = 0 is given by lloyds_input.csv
 
-RCOM = 1.0;             % radius of communication used by all agents
-ROBS = 1.2;             % radius of observation used by all agents
+RCOM = 10000.0;             % radius of communication used by all agents
+ROBS = 10000.2;             % radius of observation used by all agents
 INIT_ENERGY = 100;      % initial "energy" stored in each agent
 
 % plot toggles - set to 0 to suppress plot
@@ -67,9 +67,20 @@ SHOW_ENERGY = 1;        % energy vs time plot
 %% SETUP
 
 % defining arena
+data = readtable('Toronto_Crimes_past3m_clean.csv');
 
-xarena = linspace(-K, K, NARENA);
-yarena = linspace(-K, K, NARENA);
+data_2024 = data(data.REPORT_YEAR == 2024, :);
+
+latitude_2024 = data_2024.LAT_WGS84;
+longitude_2024 = data_2024.LONG_WGS84;
+
+lat_max = max(latitude_2024);
+lat_min = min(latitude_2024);
+long_max = max(longitude_2024);
+long_min = min(longitude_2024);
+
+xarena = linspace(long_min, long_max, NARENA);
+yarena = linspace(lat_min, lat_max, NARENA);
 [X,Y] = meshgrid(xarena, yarena);
 
 % importing initial values -----------------------------------------------
@@ -120,7 +131,8 @@ for i = 1:NSTEPS-1
     % ============================================================= WEEK 9 
     % identifying which agents communicate with one another
     G(:,:,i) = lloyds_adjacency_matrix(p0, RCOM); 
-
+display(G);
+   
     % identifying observation sets
     graph_components = conncomp(graph(G(:,:,i),'omitselfloops'));
 
@@ -133,13 +145,14 @@ for i = 1:NSTEPS-1
             p0_set(k,:) = p0(set_idx(k),:);
         end
 
+   
         % ========================================================= WEEK 10 
         % getting all weighted position data in obs set
         set_data = observation_set(p0_set, X, Y, D(:,:,i), ROBS);
-
+        %display(set_data);
         % see Eq. 14 of the course manual
         [~, p1_set] = kmeans(set_data, [], 'Start', p0_set);
-
+        
         % saving new positions for plotting/contraining movements
         for k = 1:nobset
             for m = 1:2

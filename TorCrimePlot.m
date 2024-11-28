@@ -41,7 +41,7 @@ for hour = 0:23
     
     % Create coordinate meshgrid
     [X, Y] = meshgrid(linspace(long_edges(1), long_edges(2), 100), ...
-                     linspace(lat_edges(1), lat_edges(2), 50));
+                     linspace(lat_edges(1), lat_edges(2), 100));
     
     Z = zeros(size(X));
     sigma = 0.015; % Adjust as needed
@@ -50,7 +50,7 @@ for hour = 0:23
         Z = Z + instance;
         numCrimes(hour+1) = numCrimes(hour +1) + 1;
     end
-    
+    display(Z);
     % Clear and create the plot
     clf;
     
