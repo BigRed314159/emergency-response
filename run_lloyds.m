@@ -127,7 +127,7 @@ for i = 1:NSTEPS-1
 
     % packaging position data for easy use
     p0 = [P(i,:,1)' P(i,:,2)'];     
-    
+    display(p0);
     % ============================================================= WEEK 9 
     % identifying which agents communicate with one another
     G(:,:,i) = lloyds_adjacency_matrix(p0, RCOM); 
@@ -152,7 +152,7 @@ display(G);
         %display(set_data);
         % see Eq. 14 of the course manual
         [~, p1_set] = kmeans(set_data, [], 'Start', p0_set);
-        
+        display(p1_set);
         % saving new positions for plotting/contraining movements
         for k = 1:nobset
             for m = 1:2
