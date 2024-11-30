@@ -45,7 +45,7 @@ long_edges = [long_min,long_max];
 % axis equal;
 
 numCrimes = zeros(24);
-figure;
+% figure;
 % 
 % for hour = 0:23
 %     data_hour = data_2024(data_2024.REPORT_HOUR == hour, :);

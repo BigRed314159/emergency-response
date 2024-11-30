@@ -45,7 +45,7 @@ instructor/TAs to help with large structual modifications to this script.)
 
 % simulation parameters
 TFINAL = 10;
-NSTEPS = 30;
+NSTEPS = 50;
 NARENA = 100;
 
 % agent parameters
@@ -55,7 +55,7 @@ RANDOM_AGENTS = 0;     % # of randomly generated agents scattered on
                         % at t = 0 is given by lloyds_input.csv
 
 RCOM = 10;             % radius of communication used by all agents
-ROBS = 0.005;             % radius of observation used by all agents
+ROBS = 50.15;             % radius of observation used by all agents
 INIT_ENERGY = 100;      % initial "energy" stored in each agent
 
 % plot toggles - set to 0 to suppress plot
@@ -173,7 +173,9 @@ end
 
 %% PLOTTING
 % note that the density at tfinal is used for the plots
-
+display(P);
+P(:,:,1) = P(:,:,1)/100;
+P(:,:,2) = P(:,:,2)/170;
 if (SHOW_DENSITY)
     figure 
     surf(X,Y,D(:,:,end));
