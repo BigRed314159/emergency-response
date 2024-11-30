@@ -31,7 +31,7 @@ P1 = P0 + dvec;
 E1 = E0;  % energy can just pass through if you don't want to use it
 
 % velocity restriction example --------------------------------------------
-MAXD = 4;
+MAXD = 0.006;
 if MAXD > 0
     n = length(P0);     % number of agents
     dmag = sqrt(sum(dvec(1,:,:).^2,3));

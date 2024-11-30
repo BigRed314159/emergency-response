@@ -45,7 +45,7 @@ instructor/TAs to help with large structual modifications to this script.)
 
 % simulation parameters
 TFINAL = 10;
-NSTEPS = 3;
+NSTEPS = 30;
 NARENA = 100;
 
 % agent parameters
@@ -54,15 +54,15 @@ RANDOM_AGENTS = 0;     % # of randomly generated agents scattered on
                         % [-K,K]^2, if RANDOM_AGENTS = 0, then positions 
                         % at t = 0 is given by lloyds_input.csv
 
-RCOM = 10000.0;             % radius of communication used by all agents
-ROBS = 10000.2;             % radius of observation used by all agents
+RCOM = 10;             % radius of communication used by all agents
+ROBS = 0.005;             % radius of observation used by all agents
 INIT_ENERGY = 100;      % initial "energy" stored in each agent
 
 % plot toggles - set to 0 to suppress plot
 SHOW_DENSITY = 1;       % 3D plot of density surface at TFINAL
 SHOW_ARENA = 1;         % 2D contour plot showing agent paths
 SHOW_POSITION = 1;      % position vs time plot
-SHOW_ENERGY = 1;        % energy vs time plot
+SHOW_ENERGY = 0;        % energy vs time plot
 
 %% SETUP
 
@@ -127,15 +127,15 @@ for i = 1:NSTEPS-1
 
     % packaging position data for easy use
     p0 = [P(i,:,1)' P(i,:,2)'];     
-    display(p0);
+    
     % ============================================================= WEEK 9 
     % identifying which agents communicate with one another
     G(:,:,i) = lloyds_adjacency_matrix(p0, RCOM); 
-display(G);
+
    
     % identifying observation sets
     graph_components = conncomp(graph(G(:,:,i),'omitselfloops'));
-
+% display(graph_components);
     for j = 1:max(graph_components)
         % get positions of all agents in observation set
         set_idx = idx(graph_components == j);
@@ -148,11 +148,13 @@ display(G);
    
         % ========================================================= WEEK 10 
         % getting all weighted position data in obs set
+        % display(X);
         set_data = observation_set(p0_set, X, Y, D(:,:,i), ROBS);
-        %display(set_data);
+        % display(set_data);
+        % display(D(:,:,i));
         % see Eq. 14 of the course manual
         [~, p1_set] = kmeans(set_data, [], 'Start', p0_set);
-        display(p1_set);
+        %display(p1_set);
         % saving new positions for plotting/contraining movements
         for k = 1:nobset
             for m = 1:2
